@@ -1,0 +1,14 @@
+manifest
+
+IS 452
+Final Project
+Yeli Park
+ypark80
+
+This folder contains 4 files
+- ypark80_FinalProject.py: runs the Sudoku game
+- ReadMe.txt: describes the python file and what the program is running
+- manifest.txt: describe the each files contained in the folder
+- end.gif: used in the python file at the end of the game, when the user does not want to see the solution
+
+
