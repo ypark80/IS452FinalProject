@@ -34,7 +34,8 @@ def blockDef(temp):
     block = {}
 
     # Each block is created as a dictionary to reference easily in the later function blockNumber
-
+    # I am not familiar with numpy, so I had to convert the 2D array to numpy and back to 2D array
+    
     for row in range(len(temp)):
         for col in range(len(temp)):
 
@@ -106,72 +107,52 @@ def solution(temp):
     for i in range(0, 81):
         row = i // 9
         col = i % 9
+        
+        # First check if the cell is empty
         if temp[row][col] == 0:
             rn.shuffle(numbers)
+            
+            # go through the numbers in the list
             for num in numbers:
-                # Check that this value has not already be used on this row
+                
+                # Check that number is not used in the row
                 if not (num in temp[row]):
-                    # Check that this value has not already be used on this column
+                    
+                    # Check that number is not used in the column
                     if not num in (
                     temp[0][col], temp[1][col], temp[2][col], temp[3][col], temp[4][col], temp[5][col], temp[6][col],
                     temp[7][col], temp[8][col]):
-
+                        
+                        # Define the block based on the previous function
                         block = blockDef(temp)
                         j = blockNumber(row,col)
 
+                        # Check that number is not used in the block
                         if num not in block[j]:
                             temp[row][col] = num
+                            
+                            # Check if the template is full
                             if fullTemplate(temp):
                                 return True
+                            
+                            # If template is not full, it will repeate the above steps
                             else:
                                 if solution(temp):
                                     return True
             break
+    # If the number is not filled, then it will assign the value as 0
     temp[row][col] = 0
 
-# Intial Stages of printing the Sudoku table
-# This was only for the reference in the beginning part
 
-# def visualize_String(temp):
-#     for i in range(len(temp)):
-#         for j in range(len(temp)):
-#             if temp[i][j] == "":
-#                 temp[i][j] = " "
-#
-#             if i == len(temp)-1 and temp[i][j] =="":
-#                 temp[i][j] = "   "
-#             if j % 4 == 0:
-#                 temp[i].insert(j, '|')
-#
-#     for i in range(len(temp)):
-#         for j in range(len(temp[i])):
-#             temp[i][j] = str(temp[i][j])
-#
-#     temp_inString = ''
-#     empty_String = ''
-#     for i in range(len(temp)):
-#         for j in range(len(temp)):
-#             empty_String = " ".join(temp[i])
-#         # print(temp)
-#
-#         if i % 3 != 0:
-#             temp_inString = temp_inString + "\n" + empty_String + " |"
-#
-#         else:
-#             temp_inString = temp_inString + "\n" + "|-----------------------|" + "\n" + empty_String + " |"
-#
-#         teempty_Stringmp = ''
-#
-#     temp_inString = temp_inString + "\n" + "|-----------------------|"
-#
-#     return temp_inString
 
 # Create the graphics for Sudoku
 def graphicSudoku(temp):
 
+    # Create the window for Sudoku
     win = GraphWin("Sudoku", 600, 600)
     win.setBackground("white")
 
+    # Print messages in the window for warning
     important = Text(Point(300, 50), "*IMPORTANT*\nIf you click the screen it will quit")
     important.setTextColor("#8C1F1F")
     important.setSize(15)
@@ -210,7 +191,7 @@ def graphicSudoku(temp):
     x = 0
     y = 0
 
-    # Fill in each cell with
+    # Fill in each cell with number based on template
     for row in range(len(temp)):
         for col in range(len(temp)):
             prompt = Text(Point(100+x,100+y), temp[row][col])
@@ -225,37 +206,13 @@ def graphicSudoku(temp):
     win.getMouse()
     win.close()
 
-# return the anchorpoints for each index
-# def getAnchorPoints(temp):
-#
-#     points = []
-#     anchorPoints = []
-#
-#     x = 0
-#     y = 0
-#
-#     for row in range(9):
-#         for col in range(9):
-#             prompt = Text(Point(100+x,100+y), temp[row][col])
-#             if len(points) == 9:
-#                 anchorPoints.append(points)
-#                 points = []
-#             else:
-#                 points.append(prompt.getAnchor())
-#
-#             x += 50
-#         x = 0
-#         y += 50
-#     #print(anchorPoints)
-#
-#     return anchorPoints
 
 # Remove the value from the ans to create the puzzle
 def getPuzzle(temp, level):
 
     len = [0,1,2,3,4,5,6,7,8]
 
-
+    # Return different puzzle for difficulty levels
     if level == 'easy':
         x = rn.randint(10,20)
         for i in range(x):
@@ -277,14 +234,17 @@ def getPuzzle(temp, level):
             col = rn.choice(len)
             temp[row][col] = None
 
+            
 # Ask the difficulty level of the game
 def getLevel():
     # Get the difficult level from the user
     level = ''
 
+    # Create the window for display
     win = GraphWin("Sudoku", 600, 600)
     win.setBackground("white")
 
+    # Prints the directions for the step
     showLevels = Text(Point(300, 100), "Please choose the difficulty of Sudoku game \n Enter easy, medium or hard")
     showLevels.setSize(20)
     showLevels.setTextColor("#8C1F1F")
@@ -293,9 +253,11 @@ def getLevel():
     levelEntry = Entry(Point(300, 300), 80)
     levelEntry.setFill("#F28D77")
     levelEntry.draw(win)
-
+    
+    # Click to move on to the next step
     win.getMouse()
 
+    # Save the input text in level, which will be returned for later use
     levelText = levelEntry.getText()
     levelPrint = Text(Point(300,200), levelText)
     level = levelPrint.getText()
@@ -307,6 +269,7 @@ def getLevel():
     # elif levelEntry.getText() == 'hard':
     #     level = 'hard'
 
+    # Click will close the window and move on to the next step
     win.getMouse()
     win.close()
 
@@ -316,13 +279,13 @@ def getLevel():
 
 # Ask user whether to see the solution or not
 def seeSolution():
-    # Get the difficult level from the user
-    level = ''
 
+    # Create the window for display
     win = GraphWin("Sudoku", 600, 600)
     win.setBackground("white")
 
-    showResponse = Text(Point(300, 100), "Do you want to see the solution?")
+    # Prints the directions for the step
+    showResponse = Text(Point(300, 100), "Do you want to see the solution?\n Type either 'yes' or 'no' to continue")
     showResponse.setSize(20)
     showResponse.setTextColor("#8C1F1F")
     showResponse.draw(win)
@@ -333,6 +296,7 @@ def seeSolution():
 
     win.getMouse()
 
+    # Save the input text in level, which will be returned for later use
     responseText = reseponseEntry.getText()
     responsePrint = Text(Point(300,200), responseText)
     response = responsePrint.getText()
@@ -342,7 +306,7 @@ def seeSolution():
 
     return response
 
-# Shows ending screen
+# Shows ending screen with an image, when the user does not want to see the solution
 def ifno():
     level = ''
 
@@ -352,6 +316,7 @@ def ifno():
     endImage = Image(Point(300,300), "end.gif")
     endImage.draw(win)
 
+    # Click will close the window and move on to the next step
     win.getMouse()
     win.close()
 
@@ -363,9 +328,6 @@ solution(puzzle)
 
 # solution(empty) returns boolean value, and shallow copy will change the value whenever empty is changed
 ans = copy.deepcopy(puzzle)
-#anchorPoints = getAnchorPoints(ans)
-#print(type(level))
-print(len(ans))
 
 level = getLevel().lower()
 
@@ -389,9 +351,18 @@ response = seeSolution().lower()
 # print(anchorPoints)
 # print(len(ans))
 
+yn = ['yes', 'no']
+
+# Check if the user input is either 'yes' or 'no' and repeat until the user type 'yes' or 'no'
+while(response not in yn):
+    seeSolution.lower()
+    response = seesolution().lower()
+
 
 if response.lower() == 'yes':
 
+    # Create the window
+       
     win = GraphWin("Sudoku", 600, 600)
     win.setBackground("white")
 
@@ -433,7 +404,7 @@ if response.lower() == 'yes':
     x = 0
     y = 0
 
-    # Fill in each cell with
+    # Fill in each cell with the puzzle
     for row in range(9):
         for col in range(9):
             prompt = Text(Point(100 + x, 100 + y), puzzle[row][col])
@@ -444,6 +415,7 @@ if response.lower() == 'yes':
         x = 0
         y += 50
 
+    # Fill the missing number of the cell in a different color
     for i in range(9):
         for j in range(9):
             if ans[i][j] != puzzle[i][j]:
@@ -459,6 +431,3 @@ else:
     ifno()
 
 quit()
-
-
-
