@@ -415,8 +415,7 @@ yn = ['yes', 'no']
 
 # Check if the user input is either 'yes' or 'no' and repeat until the user type 'yes' or 'no'
 while (response not in yn):
-    seeSolution.lower()
-    response = seesolution().lower()
+    response = seeSolution().lower()
 
 # Shows solution of the puzzle, with different color for the missing number
 if response.lower() == 'yes':
