@@ -270,28 +270,28 @@ def solutionGrahpics(puzzle, ans):
 
 # Remove the value from the ans to create the puzzle
 def getPuzzle(temp, level):
-    len = [0, 1, 2, 3, 4, 5, 6, 7, 8]
+    len1 = [0, 1, 2, 3, 4, 5, 6, 7, 8]
 
     # Return different puzzle for difficulty levels
     if level == 'easy':
         x = rn.randint(10, 20)
         for i in range(x):
-            row = rn.choice(len)
-            col = rn.choice(len)
+            row = rn.choice(len1)
+            col = rn.choice(len1)
             temp[row][col] = None
 
     elif level == 'medium':
         x = rn.randint(20, 55)
         for i in range(x):
-            row = rn.choice(len)
-            col = rn.choice(len)
+            row = rn.choice(len1)
+            col = rn.choice(len1)
             temp[row][col] = None
 
     elif level == 'hard':
         x = rn.randint(55, 70)
         for i in range(x):
-            row = rn.choice(len)
-            col = rn.choice(len)
+            row = rn.choice(len1)
+            col = rn.choice(len1)
             temp[row][col] = None
 
 
