@@ -34,9 +34,8 @@ def fullTemplate(temp):
 def blockDef(temp):
     block = {}
 
-    # Each block is created as a dictionary to reference easily in the later function blockNumber
-    # I am not familiar with numpy, so I had to convert the 2D array to numpy and back to 2D array
-
+    # Initial Purpose: Each block is created as a dictionary to reference easily in the later function blockNumber
+    # However, I did not get to use this function twice in this program
     for row in range(len(temp)):
         for col in range(len(temp)):
 
@@ -104,6 +103,7 @@ def blockNumber(row, col):
 
 # Generate solutions of Sudoku
 def solution(temp):
+    
     for i in range(0, 81):
         row = i // 9
         col = i % 9
@@ -141,12 +141,14 @@ def solution(temp):
                                 if solution(temp):
                                     return True
             break
+            
     # If the number is not filled, then it will assign the value as 0
     temp[row][col] = 0
 
 
 # Create the graphics for Sudoku
 def graphicSudoku(temp):
+    
     # Create the window for Sudoku
     win = GraphWin("Sudoku", 600, 600)
     win.setBackground("white")
@@ -163,6 +165,8 @@ def graphicSudoku(temp):
     # Draw vertical line with bold line to identify 3 by 3 block
     for p in range(3, 13):
         line = Line(Point(75 + i, 75), Point(75 + i, 75 + 450))
+        
+        # To emphasize the 3 by 3 block, different colors are used every 3 other rows
         if p % 3 == 0:
             line.setFill("#D95959")
             line.setWidth(3)
@@ -178,6 +182,8 @@ def graphicSudoku(temp):
     # Draw horizontal line with bold line to identify 3 by 3 block
     for p in range(3, 13):
         line = Line(Point(75, 75 + i), Point(75 + 450, 75 + i))
+        
+        # To emphasize the 3 by 3 block, different colors are used every 3 other rows
         if p % 3 == 0:
             line.setFill("#D95959")
             line.setWidth(3)
@@ -205,6 +211,7 @@ def graphicSudoku(temp):
     win.getMouse()
     win.close()
 
+# Shows solution of the puzzle
 def solutionGrahpics(puzzle, ans):
     # Create the window for Sudoku
     win = GraphWin("Sudoku", 600, 600)
@@ -254,6 +261,8 @@ def solutionGrahpics(puzzle, ans):
         for col in range(len(ans)):
             prompt = Text(Point(100 + x, 100 + y), ans[row][col])
             prompt.setSize(30)
+            
+            # Print the number in different color, so that the answers to the puzzle is emphasized
             if (puzzle[row][col]==ans[row][col]):
                 prompt.setTextColor("#A66253")
             else:
@@ -310,6 +319,7 @@ def getLevel():
     showLevels.setTextColor("#8C1F1F")
     showLevels.draw(win)
 
+    # Allow user to input the level
     levelEntry = Entry(Point(300, 300), 80)
     levelEntry.setFill("#F28D77")
     levelEntry.draw(win)
@@ -350,6 +360,7 @@ def seeSolution():
     showResponse.setTextColor("#8C1F1F")
     showResponse.draw(win)
 
+    # Allow user to input
     reseponseEntry = Entry(Point(300, 300), 80)
     reseponseEntry.setFill("#F28D77")
     reseponseEntry.draw(win)
